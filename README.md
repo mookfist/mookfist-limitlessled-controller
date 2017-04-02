@@ -20,7 +20,8 @@ $ python lled.py --help
 ```
 
 ## API
-Currently not documented.
+
+The API is currently not documented but these examples should help get you going.
 
 ### API Examples
 ```python
@@ -41,10 +42,44 @@ from mookfist_limitlessled_controller import WifiBridge
 from mookfist_limitlessled_controller import get_bridge
 
 ip, macaddr = get_bridge(version=4)
+
+bridge = WifiBridge(ip, 8899, version=4)
 bridge.color(128, 1)
 ```
 
-## Commands
+```python
+# Fade groups 1 through 4 from 100% to 0%
+# This is a blocking operation
+from mookfist_limitlessled_controller import WifiBridge
+from mookfist_limitlessled_controller import get_bridge
+from mookfist_limitlessled_controller import fade_brightness
+
+ip, macaddr = get_bridge(version=4)
+bridge = WifiBridge(ip, 8899, version=4)
+
+fade_brightness(bridge, (1,2,3,4), 100, 0)
+```
+
+```python
+# Fade color from 0 to 255 for groups 2 and 3
+# This is a blocking operation
+from mookfist_limitlessled_controller import WifiBridge
+from mookfist_limitlessled_controller import get_bridge
+from mookfist_limitlessled_controller import fade_brightness
+
+ip, macaddr = get_bridge(version=4)
+bridge = WifiBridge(ip, 8899, version=4)
+
+fade_color(bridge, (1,2,3,4), 0, 255)
+```
+
+
+## Command Line Interface
+
+The lled.py script allows you to control your lights from the command line.
+
+### Commands
+
 | Command | Description |
 | ------- | ----------- |
 | fade <start> <end>   | Fade brightness from <start> to <end>. Values can be between 0 and 100 |
@@ -53,7 +88,7 @@ bridge.color(128, 1)
 | brightness <brightness> | Set the brightness to <brightness>. Value can be between 0 and 255 |
 
 
-## Options
+### Options
 | Argument | Description | Default Value |
 | -------- | ----------- | ------------- |
 | --repeat-count | Number of times to repeat a command. Increasing this value could improve smoothness, but means it will take a longer time to perform fades | 1 |
@@ -65,7 +100,7 @@ bridge.color(128, 1)
 | --version | The version of the LimitlessLED protocol | 4 |
 
 
-## Examples
+### Examples
 
 
 Fade light group 1 to 0% brightness
