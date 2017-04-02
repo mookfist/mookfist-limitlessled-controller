@@ -46,11 +46,15 @@ $ python lled.py --help
 Fade light group 1 to 0% brightness
 
 ```
-python lled.py fade 100 0 --group 1
+$ python lled.py fade 100 0 --group 1
 ```
 
 Set color to groups 1 and 2
 ```
-python lled.py color 128 --group 1 --group 2
+$ python lled.py color 128 --group 1 --group 2
 ```
 
+Set brightness to 50% for group 3
+```
+$ python lled.py brightness 50 --group 3
+```
