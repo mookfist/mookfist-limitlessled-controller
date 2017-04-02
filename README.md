@@ -26,8 +26,8 @@ The API is currently not documented but these examples should help get you going
 ### API Examples
 ```python
 # Set brightness to 50% for groups 1 and 2
-from mookfist_limitlessled_controller import WifiBridge
-from mookfist_limitlessled_controller import get_bridge
+from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller import get_bridge
 
 ip, macaddr = get_bridge(version=4)
 
@@ -38,8 +38,8 @@ bridge.brightness(50, 2)
 
 ```python
 # Set color to 128 for group 1
-from mookfist_limitlessled_controller import WifiBridge
-from mookfist_limitlessled_controller import get_bridge
+from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller import get_bridge
 
 ip, macaddr = get_bridge(version=4)
 
@@ -50,9 +50,9 @@ bridge.color(128, 1)
 ```python
 # Fade groups 1 through 4 from 100% to 0%
 # This is a blocking operation
-from mookfist_limitlessled_controller import WifiBridge
-from mookfist_limitlessled_controller import get_bridge
-from mookfist_limitlessled_controller import fade_brightness
+from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller import get_bridge
+from mookfist_lled_controller import fade_brightness
 
 ip, macaddr = get_bridge(version=4)
 bridge = WifiBridge(ip, 8899, version=4)
@@ -63,9 +63,9 @@ fade_brightness(bridge, (1,2,3,4), 100, 0)
 ```python
 # Fade color from 0 to 255 for groups 2 and 3
 # This is a blocking operation
-from mookfist_limitlessled_controller import WifiBridge
-from mookfist_limitlessled_controller import get_bridge
-from mookfist_limitlessled_controller import fade_brightness
+from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller import get_bridge
+from mookfist_lled_controller import fade_brightness
 
 ip, macaddr = get_bridge(version=4)
 bridge = WifiBridge(ip, 8899, version=4)
@@ -75,9 +75,9 @@ fade_color(bridge, (1,2,3,4), 0, 255)
 
 ```python
 # Fade group 1 from 0 to 100% rather slowly
-from mookfist_limitlessled_controller import WifiBridge
-from mookfist_limitlessled_controller import get_bridge
-from mookfist_limitlessled_controller import fade_brightness
+from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller import get_bridge
+from mookfist_lled_controller import fade_brightness
 
 ip, macaddr = get_bridge(version=4)
 bridge = WifiBridge(ip, 8899, version=4, pause=50, repeat=5)
