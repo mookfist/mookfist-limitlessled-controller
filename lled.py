@@ -14,22 +14,16 @@ Options:
     -h --host=HOST            IP / Hostname of the bridge
     -p --port=PORT            Port number of the bridge (defaults to 8899)
     -g GROUP --group=GROUP    Group number
-    -r RC --repeat-count=RC   Repeat command count
+    -r RC --repeat=RC         Number of times to repeat a command
+    --pause=PAUSE             Number of milliseconds to wait between commands
     -v --version              Specify the bridge version (defaults to 4)
-    --pause=PAUSE    Pause between commands
     --debug                   Enable debugging output
-    -h --help
+    -h --help                 Show this help
 """
 import sys
 import logging
 from docopt import docopt
-from mookfist_lled_controller import logger
-from mookfist_lled_controller import WifiBridge
-from mookfist_lled_controller import get_bridge
-from mookfist_lled_controller import fade_brightness
-from mookfist_lled_controller import fade_color
-from mookfist_lled_controller import set_color
-from mookfist_lled_controller import set_brightness
+
 from mookfist_lled_controller.cli import configure_logger
 from mookfist_lled_controller.cli import Main
 

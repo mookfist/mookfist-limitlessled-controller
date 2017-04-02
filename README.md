@@ -73,6 +73,18 @@ bridge = WifiBridge(ip, 8899, version=4)
 fade_color(bridge, (1,2,3,4), 0, 255)
 ```
 
+```python
+# Fade group 1 from 0 to 100% rather slowly
+from mookfist_limitlessled_controller import WifiBridge
+from mookfist_limitlessled_controller import get_bridge
+from mookfist_limitlessled_controller import fade_brightness
+
+ip, macaddr = get_bridge(version=4)
+bridge = WifiBridge(ip, 8899, version=4, pause=50, repeat=5)
+
+fade_brightness(bridge, (1), 0, 100)
+```
+
 
 ## Command Line Interface
 
@@ -91,7 +103,7 @@ The lled.py script allows you to control your lights from the command line.
 ### Options
 | Argument | Description | Default Value |
 | -------- | ----------- | ------------- |
-| --repeat-count | Number of times to repeat a command. Increasing this value could improve smoothness, but means it will take a longer time to perform fades | 1 |
+| --repeat | Number of times to repeat a command. Increasing this value could improve smoothness, but means it will take a longer time to perform fades | 1 |
 | --pause  | Number of milliseconds to pause between sending commands. Decreasing this value below 100ms might mean some commands are not processed | 100 |
 | --group  | Group number. Repeat the argument for each group you want to send a command to | n/a |
 | --debug  | Turn on debug logging | false |
@@ -118,3 +130,11 @@ Set brightness to 50% for group 3
 ```
 $ python lled.py brightness 50 --group 3
 ```
+
+## Tweaking
+
+The repeat and pause values can be used to tweak how commands are sent. In general, you should wait 100ms between each command sent. But since there is no native fading in LimitlessLED, to achieve fading, the controller sends multiple commands to fade from one value to another.
+
+If the pause is too small, some commands might get missed. But this is what the repeat setting can fix. You can send the same command more than once.
+
+Getting smooth fading is not very easy with the wifi protocol, but you might be able to get better results by playing with these two values

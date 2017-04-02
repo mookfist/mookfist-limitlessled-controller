@@ -81,17 +81,6 @@ class Main(object):
         elif self.arguments['brightness']:
             self.action_brightness()
 
-    def setup_bridge(self):
-        rc = 1
-        if self.arguments['--repeat-count']:
-            rc = int(self.arguments['--repeat-count'])
-        
-        pause = 100
-        if self.arguments['--pause']:
-            pause = int(self.arguments['--pause'])
-
-        self.log.debug('Pause: %sms' % pause)
-        self.log.debug('Repeat Count: %s' % rc)
 
     def run(self):
         if (self.arguments['--host']):
@@ -106,8 +95,8 @@ class Main(object):
             port = int(self.arguments['--port'])
 
         rc = 1
-        if self.arguments['--repeat-count']:
-            rc = int(self.arguments['--repeat-count'])
+        if self.arguments['--repeat']:
+            rc = int(self.arguments['--repeat'])
 
         pause = 100
         if self.arguments['--pause']:

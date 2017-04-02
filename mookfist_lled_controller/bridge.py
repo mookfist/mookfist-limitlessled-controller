@@ -31,18 +31,18 @@ class WifiBridge(object):
 
     Abstraction against different LimitlessLED bridge versions
     """
-    def __init__(self, ip, port, version=4, pause=100, repeat_count=1):
+    def __init__(self, ip, port, version=4, pause=100, repeat=1):
         """
         ip: IP Address of the wifi bridge
         port: Port number of the wifi bridge
         version: Which LimitlessLED wifi version to use
         pause: Delay in milliseconds between commands
-        repeat_count: Number of times to repeat the same command
+        repeat: Number of times to repeat the same command
         """
         self.ip = ip
         self.port = port
         self.pause = pause / 1000.0
-        self.repeat_count = repeat_count
+        self.repeat = repeat
         self._groups = {}
 
         if version == 4:
@@ -99,7 +99,7 @@ class WifiBridge(object):
         cmd is expected to be array of numbers
         """
 
-        for x in range(0,self.repeat_count): 
+        for x in range(0,self.repeat): 
             logging.debug('Sending command: %s' % cmd.message())
             self._sock.sendto(bytearray(cmd.message()), (self.ip, self.port))
             time.sleep(self.pause)
