@@ -19,6 +19,31 @@ $ python setup.py install
 $ python lled.py --help
 ```
 
+## API
+Currently not documented.
+
+### API Examples
+```python
+# Set brightness to 50% for groups 1 and 2
+from mookfist_limitlessled_controller import WifiBridge
+from mookfist_limitlessled_controller import get_bridge
+
+ip, macaddr = get_bridge(version=4)
+
+bridge = WifiBridge(ip, 8899, version=4)
+bridge.brightness(50, 1)
+bridge.brightness(50, 2)
+```
+
+```python
+# Set color to 128 for group 1
+from mookfist_limitlessled_controller import WifiBridge
+from mookfist_limitlessled_controller import get_bridge
+
+ip, macaddr = get_bridge(version=4)
+bridge.color(128, 1)
+```
+
 ## Commands
 | Command | Description |
 | ------- | ----------- |

@@ -8,6 +8,7 @@ setup(
     author_email="mookfist@gmail.com",
     url="https://github.com/mookfist/mookfist-lled-controller",
     scripts=['lled.py'],
+    packages=['mookfist_limitlessled_controller'],
     install_requires=[
         'docopt',
         'colorama'
