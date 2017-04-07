@@ -19,7 +19,7 @@ def get_bridge(version=4):
     """
 
     if version == 4:
-        from .bridges.ver4 import get_bridge as gb
+        from mookfist_lled_controller.bridges.ver4 import get_bridge as gb
     else:
         raise Exception("Unsupported protocol version: %s" % version)
 
