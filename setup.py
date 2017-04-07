@@ -15,7 +15,7 @@ Bridge Version Support:
 setup(
     name="mookfist-lled-controller",
     description=__doc__,
-    version="0.0.6",
+    version="0.0.7",
     author="mookfist",
     author_email="mookfist@gmail.com",
     url="https://github.com/mookfist/mookfist-lled-controller",
