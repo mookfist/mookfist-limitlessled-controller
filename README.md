@@ -1,4 +1,4 @@
-# Mookfist LimitlessLED Controller v0.0.3
+# Mookfist LimitlessLED Controller v0.0.5
 
 Intended as a simple wrapper around the LimitlessLED wifi protocol written in python.
 
@@ -8,6 +8,7 @@ There are some differences from the original LimitlessLED protocol:
 
 1. Brightness is a percentage between 0 and 100. LimitlessLED protocol's brightness ranges from 2 to 27
 2. Color is a value between 0 and 255 and starts and ends with the color red. LimitlesLED protocol's color starts from blue
+
 
 ## Installation
 
