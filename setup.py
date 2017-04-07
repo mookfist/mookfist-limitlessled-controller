@@ -12,14 +12,10 @@ Bridge Version Support:
     v6 - Not Compatible
 """
 
-desc = open('README.md').read()
-
-
-
 setup(
     name="mookfist-lled-controller",
     description=__doc__,
-    version="0.0.5",
+    version="0.0.6",
     author="mookfist",
     author_email="mookfist@gmail.com",
     url="https://github.com/mookfist/mookfist-lled-controller",
