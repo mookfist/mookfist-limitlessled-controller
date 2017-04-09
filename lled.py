@@ -7,6 +7,8 @@ Usage:
     lled.py fade <start> <end> (--group=<GROUP>)... [options]
     lled.py fadec <start> <end> (--group=<GROUP>)... [options]
     lled.py fadeb <startb> <endb> <startc> <endc> (--group=<GROUP>)... [options]
+    lled.py on (--group=<group>)... [options]
+    lled.py off (--group=<group>)... [options]
     lled.py color <color> (--group=<GROUP>)... [options]
     lled.py brightness <brightness> (--group=<GROUP>)... [options]
 
@@ -16,7 +18,7 @@ Options:
     -g GROUP --group=GROUP    Group number
     -r RC --repeat=RC         Number of times to repeat a command
     --pause=PAUSE             Number of milliseconds to wait between commands
-    -v --version              Specify the bridge version (defaults to 4)
+    --bridge-version=VERSION  Specify the bridge version (defaults to 4)
     --debug                   Enable debugging output
     -h --help                 Show this help
 """

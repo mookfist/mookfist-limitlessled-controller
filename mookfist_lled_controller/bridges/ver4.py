@@ -5,6 +5,8 @@ this should also be compatible with a version 5 wifi bridge.
 """
 import socket
 import math
+import logging
+import time
 from mookfist_lled_controller.exceptions import NoBridgeFound
 from mookfist_lled_controller.exceptions import InvalidGroup
 
@@ -31,6 +33,62 @@ def get_bridge():
             counter = counter + 1
 
     raise NoBridgeFound()
+
+class Bridge(object):
+    def __init__(self, ip, port, pause=100, repeat=1, *args, **kwargs):
+        self.ip = ip
+        self.port = port
+        self.pause = pause / 1000.0
+        self.repeat = repeat
+        self._groups = {}
+
+        self._Group = kwargs.get('group_class', Group)
+
+        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self._last_set_group = -1
+
+        self.logger = logging.getLogger('bridge')
+
+
+    def get_group(self, group):
+        self.logger.warn('Group: %s' % group)
+        self.logger.warn('Groups: %s' % self._groups)
+        if group not in self._groups:
+            self._groups[group] = self._Group(group)
+        return self._groups[group]
+
+    def color(self, color, group=1):
+        g = self.get_group(group)
+        if self._last_set_group != group:
+            self.send(g.on())
+            self._last_set_group = group
+
+        self.send(g.color(color))
+
+    def off(self, group=1):
+        g = self.get_group(group)
+        self.send(g.off())
+
+    def on(self, group=1):
+        g = self.get_group(group)
+        self.send(g.on())
+
+
+    def brightness(self, brightness, group=1):
+        g = self.get_group(group)
+
+        if self._last_set_group != group:
+            self.send(g.on())
+            self._last_set_group = group
+
+        self.send(g.brightness(brightness))
+
+    def send(self, cmd):
+        for x in range(0, self.repeat):
+            self.logger.debug('Sending command: %s' % cmd.message())
+            self._sock.sendto(bytearray(cmd.message()), (self.ip, self.port))
+            time.sleep(self.pause)
+
 
 
 class Command(object):
