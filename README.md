@@ -2,15 +2,18 @@
 
 Intended as a simple wrapper around the LimitlessLED wifi protocol written in python.
 
-Supports wifi bridge versions 4, 5, and 6 but currently only provides a subset of functionality. You can control the color, and the brightness. Other features are not enabled yet.
+Supports wifi bridge versions 4, 5, and 6. Current features implemented:
 
-There are some differences from the original LimitlessLED protocol:
+1. color
+2. brightnes
+3. toggle white color
 
-1. Brightness is a percentage between 0 and 100. LimitlessLED protocol's brightness ranges from 2 to 27
-2. Color is a value between 0 and 255 and starts and ends with the color red. LimitlesLED protocol's color starts from blue
-
+Color values can be in a range from 0 to 255.
+Brightness values can be in a range from 0 to 100.
 
 ## Installation
+
+### From Source
 
 Download the code: https://github.com/mookfist/mookfist-limitlessled-controller/archive/master.zip
 
@@ -18,6 +21,13 @@ Download the code: https://github.com/mookfist/mookfist-limitlessled-controller/
 $ unzip master.zip
 $ python setup.py install
 $ python lled.py --help
+```
+
+### From PyPI
+
+```
+$ pip install mookfist-lled-controller
+$ lled.py --help
 ```
 
 ## API
@@ -99,6 +109,9 @@ The lled.py script allows you to control your lights from the command line.
 | fadec <start> <end> | Fade the color from <start> to <end>. Values can be between 0 and 255 |
 | color <color> | Set color to <color>. Value can be between 0 and 255 |
 | brightness <brightness> | Set the brightness to <brightness>. Value can be between 0 and 255 |
+| on | Turn on a group |
+| off | Turn off a group |
+| white | Turn a group white |
 
 
 ### Options
@@ -110,7 +123,7 @@ The lled.py script allows you to control your lights from the command line.
 | --debug  | Turn on debug logging | false |
 | --host   | The IP/hostname of the bridge. If omitted the bridge will be automatically scanned down | n/a |
 | --port   | The port number of the bridge. | 8899 |
-| --version | The version of the LimitlessLED protocol | 4 |
+| --bridge-version | The version of the LimitlessLED protocol | 4 |
 
 
 ### Examples
@@ -131,6 +144,10 @@ Set brightness to 50% for group 3
 ```
 $ python lled.py brightness 50 --group 3
 ```
+
+Set group 1 to the color white (version 6)
+
+$ python lled.py white --group 1 --bridge-version 6 --port 5987
 
 ## Tweaking
 
