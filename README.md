@@ -2,7 +2,7 @@
 
 Intended as a simple wrapper around the LimitlessLED wifi protocol written in python.
 
-Currently only supports version 4 (and possibly version 5) but is designed to support multiple versions.
+Supports wifi bridge versions 4, 5, and 6 but currently only provides a subset of functionality. You can control the color, and the brightness. Other features are not enabled yet.
 
 There are some differences from the original LimitlessLED protocol:
 
@@ -55,8 +55,8 @@ from mookfist_lled_controller import WifiBridge
 from mookfist_lled_controller import get_bridge
 from mookfist_lled_controller import fade_brightness
 
-ip, macaddr = get_bridge(version=4)
-bridge = WifiBridge(ip, 8899, version=4)
+ip, macaddr = get_bridge(version=6)
+bridge = WifiBridge(ip, 5987, version=6)
 
 fade_brightness(bridge, (1,2,3,4), 100, 0)
 ```
