@@ -1,21 +1,12 @@
 import os
 from setuptools import setup
 
-__doc__ = """Mookfist LimitlessLED Controller
-
-A python library for communicating with LimitlessLED compatible wifi bridges.
-
-Bridge Version Support:
-
-    v4 - Compatible
-    v5 - Compatible
-    v6 - Not Compatible
-"""
+__doc__ = """A python library for communicating with LimitlessLED/Milight/Easybulb compatible wifi bridges."""
 
 setup(
     name="mookfist-lled-controller",
     description=__doc__,
-    version="0.0.8",
+    version="0.0.9",
     author="mookfist",
     author_email="mookfist@gmail.com",
     url="https://github.com/mookfist/mookfist-lled-controller",
