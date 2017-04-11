@@ -53,6 +53,9 @@ class WifiBridge(object):
 
         self._bridge = Bridge(ip, port, pause, repeat, **kwargs)
 
+    def get_group(self, group=1):
+        return self._bridge.get_group(group)
+
     def color(self, color, group=1):
         """
         Set the color for a group.
