@@ -11,11 +11,15 @@ from mookfist_lled_controller.exceptions import NoBridgeFound
 from mookfist_lled_controller.exceptions import InvalidGroup
 from mookfist_lled_controller import pprint_bytearray
 
-def get_bridges():
+GROUPS = (1,2,3,4)
+
+def get_bridges(sock=None):
     """Get available bridges"""
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.settimeout(2)
+    if sock == None:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(2)
+
     sock.bind(('', 0))
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -105,21 +109,26 @@ class Command(object):
 
 
 class Bridge(object):
+
     def __init__(self, ip, port=5987, pause=100, repeat=3, *args, **kwargs):
         self.ip = ip
         self.port = port
         self.pause = pause / 1000.0
         self.repeat = repeat
-        self._groups = {}
+        self.timeout = kwargs.get('timeout', 2)
 
+        self._groups = {}
         self._Group = kwargs.get('group_class', Group)
 
-        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self._sock.settimeout(2)
-        self._last_set_group = -1
+        sock = kwargs.get('sock', None)
+        if sock == None:
+            self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self._sock.settimeout(self.timeout)
+        else:
+            self._sock = sock
 
-        self.logger = logging.getLogger('bridge6')
+        self.logger = logging.getLogger('mlledctrl.bridge6')
 
         self._wb1 = None
         self._wb2 = None

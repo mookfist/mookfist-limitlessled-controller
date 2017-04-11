@@ -14,12 +14,12 @@ Usage:
     lled.py brightness <brightness> (--group=<GROUP>)... [options]
 
 Options:
-    -h --host=HOST            IP / Hostname of the bridge
-    -p --port=PORT            Port number of the bridge (defaults to 8899)
-    -g GROUP --group=GROUP    Group number
+    -h --bridge-ip=HOST       IP / Hostname of the bridge
+    -p --bridge-port=PORT     Port number of the bridge (defaults to 8899 or 5987)
+    --bridge-version=VERSION  Bridge version (defaults to 4)
+    -g GROUP --group=GROUP    Group number (defaults to 1)
     -r RC --repeat=RC         Number of times to repeat a command
     --pause=PAUSE             Number of milliseconds to wait between commands
-    --bridge-version=VERSION  Specify the bridge version (defaults to 4)
     --debug                   Enable debugging output
     -h --help                 Show this help
 """

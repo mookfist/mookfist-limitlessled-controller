@@ -40,7 +40,7 @@ The API is currently not documented but these examples should help get you going
 from mookfist_lled_controller import WifiBridge
 from mookfist_lled_controller import get_bridges
 
-ip, macaddr = get_bridges(version=4)
+ip, macaddr = get_bridges(version=4)[0]
 
 bridge = WifiBridge(ip, 8899, version=4)
 bridge.brightness(50, 1)
@@ -117,12 +117,12 @@ The lled.py script allows you to control your lights from the command line.
 ### Options
 | Argument | Description | Default Value |
 | -------- | ----------- | ------------- |
-| --repeat | Number of times to repeat a command. Increasing this value could improve smoothness, but means it will take a longer time to perform fades | 1 |
-| --pause  | Number of milliseconds to pause between sending commands. Decreasing this value below 100ms might mean some commands are not processed | 100 |
-| --group  | Group number. Repeat the argument for each group you want to send a command to | n/a |
-| --debug  | Turn on debug logging | false |
-| --host   | The IP/hostname of the bridge. If omitted the bridge will be automatically scanned down | n/a |
-| --port   | The port number of the bridge. | 8899 |
+| --repeat         | Number of times to repeat a command. Increasing this value could improve smoothness, but means it will take a longer time to perform fades | 1 |
+| --pause          | Number of milliseconds to pause between sending commands. Decreasing this value below 100ms might mean some commands are not processed | 100 |
+| --group          | Group number. Repeat the argument for each group you want to send a command to | n/a |
+| --debug          | Turn on debug logging | false |
+| --bridge-ip      | The IP/hostname of the bridge. If omitted the bridge will be automatically scanned down | n/a |
+| --bridge-port    | The port number of the bridge. | 8899 or 5987 |
 | --bridge-version | The version of the LimitlessLED protocol | 4 |
 
 
@@ -147,7 +147,7 @@ $ python lled.py brightness 50 --group 3
 
 Set group 1 to the color white (version 6)
 
-$ python lled.py white --group 1 --bridge-version 6 --port 5987
+$ python lled.py white --group 1 --bridge-version 6
 
 ## Tweaking
 

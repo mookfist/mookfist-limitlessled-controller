@@ -24,11 +24,13 @@ def get_bridges(version=4):
 
 
 class WifiBridge(object):
+
+    VERSIONS = (4,5,6)
     """Wifi Bridge Class
 
     Abstraction against different LimitlessLED bridge versions
     """
-    def __init__(self, ip, port, version=4, pause=100, repeat=1):
+    def __init__(self, ip, port, version=4, pause=100, repeat=1, **kwargs):
         """
         ip: IP Address of the wifi bridge
         port: Port number of the wifi bridge
@@ -49,7 +51,7 @@ class WifiBridge(object):
         else:
             raise Exception("Unsupported protocol version: %s" % version)
 
-        self._bridge = Bridge(ip, port, pause, repeat)
+        self._bridge = Bridge(ip, port, pause, repeat, **kwargs)
 
     def color(self, color, group=1):
         """

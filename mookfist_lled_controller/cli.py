@@ -124,11 +124,11 @@ class Main(object):
 
     def run(self):
         try:
-            if (self.arguments['--host']):
-                host = self.arguments['--host']
+            if (self.arguments['--bridge-ip']):
+                host = self.arguments['--bridge-ip']
             else:
                 self.log.info('Scanning for bridge...')
-                bridges = get_bridge(self.bridge_version)
+                bridges = get_bridges(self.bridge_version)
                 self.log.info('Found %s bridge(s)' % len(bridges))
                 
                 if len(bridges) > 1:
@@ -160,8 +160,8 @@ class Main(object):
                 port = 8899
             elif version == 6:
                 port = 5987
-            elif self.arguments['--port']:
-                port = int(self.arguments['--port'])
+            elif self.arguments['--bridge-port']:
+                port = int(self.arguments['--bridge-port'])
 
             self.log.info('--- Bridge Details')
             self.log.info('Version: %s' % version)

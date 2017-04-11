@@ -10,11 +10,14 @@ import time
 from mookfist_lled_controller.exceptions import NoBridgeFound
 from mookfist_lled_controller.exceptions import InvalidGroup
 
-def get_bridges():
-    """Get available bridges"""
+GROUPS = (1,2,3,4)
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.settimeout(2)
+def get_bridges(sock=None):
+
+    if sock == None:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.settimeout(2)
+
     sock.bind(('', 0))
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -48,11 +51,19 @@ class Bridge(object):
         self.port = port
         self.pause = pause / 1000.0
         self.repeat = repeat
-        self._groups = {}
+        self.timeout = kwargs.get('timeout', 2)
 
+        self._groups = {}
         self._Group = kwargs.get('group_class', Group)
 
-        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock = kwargs.get('sock', None)
+        if sock == None:
+            self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self._sock.settimeout(self.timeout)
+        else:
+            self._sock = sock
+
         self._last_set_group = -1
 
         self.logger = logging.getLogger('bridge')
