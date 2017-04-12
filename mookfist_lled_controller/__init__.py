@@ -8,6 +8,10 @@ from .actions import set_brightness
 from .actions import set_on
 from .actions import set_off
 from .actions import set_white
+from .actions import set_rgb
+from .colors import color_from_rgb
+from .colors import color_from_hls
+from .colors import color_from_html
 
 def pprint_bytearray(h):
     s = []
