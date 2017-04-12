@@ -10,6 +10,7 @@ import time
 from mookfist_lled_controller.exceptions import NoBridgeFound
 from mookfist_lled_controller.exceptions import InvalidGroup
 from mookfist_lled_controller import pprint_bytearray
+from mookfist_lled_controller import color_from_rgb
 
 GROUPS = (1,2,3,4)
 
@@ -231,6 +232,12 @@ class Bridge(object):
         g = self.get_group(group)
         self.send(g.color(color))
 
+    def color_from_rgb(self, r, g, b, group=1):
+        color = color_from_rgb(r,g,b) + 25
+        if color > 255:
+            color = color - 255
+        self.color(color, group)
+
     def brightness(self, brightness, group=1):
         g = self.get_group(group)
         self.send(g.brightness(brightness))
@@ -327,9 +334,6 @@ class Group(object):
         cmd[16] = color
         cmd[17] = color
         cmd[18] = color
-        color = color + 176
-        if color > 255:
-            color = color - 255
         return cmd
         # return Command(0x40, color)
 
