@@ -1,4 +1,4 @@
-# Mookfist LimitlessLED Controller v0.0.13
+# Mookfist LimitlessLED Controller v0.0.14
 
 Intended as a simple wrapper around the LimitlessLED wifi protocol written in python.
 
@@ -108,10 +108,12 @@ The lled.py script allows you to control your lights from the command line.
 | fade <start> <end>   | Fade brightness from <start> to <end>. Values can be between 0 and 100 |
 | fadec <start> <end> | Fade the color from <start> to <end>. Values can be between 0 and 255 |
 | color <color> | Set color to <color>. Value can be between 0 and 255 |
-| brightness <brightness> | Set the brightness to <brightness>. Value can be between 0 and 255 |
+| brightness <brightness> | Set the brightness to <brightness>. Value can be between 0 and 100 |
 | on | Turn on a group |
 | off | Turn off a group |
 | white | Turn a group white |
+| rgb <r> <g> <b> | Set the color using an RGB value. Each color is a number between 0 and 255 |
+| colorcycle | Cycle through all available colors |
 
 
 ### Options
