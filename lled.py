@@ -10,6 +10,8 @@ Usage:
     lled.py on (--group=<group>)... [options]
     lled.py off (--group=<group>)... [options]
     lled.py color <color> (--group=<GROUP>)... [options]
+    lled.py colorcycle (--group=<GROUP>)... [options]
+    lled.py rgb <r> <b> <g> (--group=<GROUP>)... [options]
     lled.py white (--group=<GROUP>)... [options]
     lled.py brightness <brightness> (--group=<GROUP>)... [options]
 
