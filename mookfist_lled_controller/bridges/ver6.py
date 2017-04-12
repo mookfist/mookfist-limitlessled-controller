@@ -233,7 +233,18 @@ class Bridge(object):
         self.send(g.color(color))
 
     def color_from_rgb(self, r, g, b, group=1):
-        color = color_from_rgb(r,g,b) + 25
+        if r == 255 and g == 255 and b == 255:
+            self.white(group)
+            return
+        elif r == 0 and g == 0 and b == 0:
+            self.off()
+            return
+
+        ## B and G are inversed here. For some reason this 
+        # worked when using 0 255 0 for green for example
+        color = color_from_rgb(r, b, g)
+        print color
+        color = color + 25
         if color > 255:
             color = color - 255
         self.color(color, group)

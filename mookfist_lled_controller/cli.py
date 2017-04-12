@@ -113,17 +113,16 @@ class Main(object):
 
     def action_rgb(self):
         r = int(self.arguments['<r>'])
-        b = int(self.arguments['<b>'])
         g = int(self.arguments['<g>'])
+        b = int(self.arguments['<b>'])
 
-        color = color_from_rgb(r,b,g)
+        color = color_from_rgb(r, g, b)
 
-        self.log.info('Setting color to rgb(%s,%s,%s) - translated to: %s' % (r,b,g,color))
+        self.log.info('Setting color to rgb(%s, %s, %s) - translated to: %s' % (r, g, b, color))
         set_rgb(self.bridge, self.arguments['--group'], r, g, b)
 
     def action_colorcycle(self):
         for x in range(0,256):
-        #    x = x + 25
             if x < 0:
                 x = x + 255
             elif x > 255:

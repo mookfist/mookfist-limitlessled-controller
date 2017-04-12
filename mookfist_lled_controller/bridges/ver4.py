@@ -86,7 +86,16 @@ class Bridge(object):
         self.send(g.color(color))
 
     def color_from_rgb(self, r, g, b, group=1):
-        color = color_from_rgb(r, g, b, 2.0/3.0) - 5
+
+        if r == 255 and b == 255 and g = 255:
+            self.white(group)
+            return
+        if r == 0 and b == 0 and g == 0:
+            self.off(group)
+            return
+
+        color = color_from_rgb(r, g, b)
+        color = color - 5
         if color < 0:
             color = color + 255
         self.color(color, group)
