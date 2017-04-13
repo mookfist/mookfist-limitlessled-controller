@@ -25,7 +25,6 @@ Options:
     --debug                   Enable debugging output
     -h --help                 Show this help
 """
-import sys
 import logging
 from docopt import docopt
 
@@ -33,6 +32,7 @@ from mookfist_lled_controller.cli import configure_logger
 from mookfist_lled_controller.cli import Main
 
 def main():
+    """Main function!"""
     arguments = docopt(__doc__, version='Mookfist LimitlessLED Control 0.0.1')
     configure_logger(arguments['--debug'])
 
