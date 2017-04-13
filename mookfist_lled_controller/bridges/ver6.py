@@ -9,8 +9,8 @@ import logging
 import time
 from mookfist_lled_controller.exceptions import NoBridgeFound
 from mookfist_lled_controller.exceptions import InvalidGroup
-from mookfist_lled_controller import pprint_bytearray
 from mookfist_lled_controller import color_from_rgb
+from mookfist_lled_controller import Command
 
 GROUPS = (1,2,3,4)
 
@@ -56,21 +56,11 @@ def format_hex(i):
     
 
 
-class Command(object):
+class CustomCommand(Command):
     """A LimitlessLED Command"""
 
-    def __init__(self):
-        """
-        cmd: command to send
-        value: value of command, if any (defaults to 0x00)
-        suffix: suffix value at the end of the command if any
-        """
-
-        self._cmd = []
-
-        for x in range(0,22):
-            self._cmd.append(None)
-
+    def __init__(self, size):
+        super(CustomCommand, self).__init__(size)
         self._set_preamble()
 
     def _set_preamble(self):
@@ -82,32 +72,9 @@ class Command(object):
         self[7] = 0x00
         self[8] = 0x02
         self[9] = 0x00
-        
-    
-    def __getitem__(self, key):
-        key = int(key)
-        if key >= len(self._cmd):
-            raise "Invalid byte"
-        else:
-            return self._cmd[key]
 
-    def __setitem__(self, key, value):
-        key = int(key)
-        if key >= len(self._cmd):
-            raise "Invalid byte"
-        else:
-            self._cmd[key] = value
-
-    def checksum(self, group):
+    def checksum(self):
         return sum(bytearray(self._cmd[10:21])) & 0xff
-
-    def message(self):
-        """Get an array representation of the message"""
-        return self._cmd
-
-    def message_str(self):
-        return pprint_bytearray(self._cmd)
-
 
 class Bridge(object):
 
@@ -146,38 +113,36 @@ class Bridge(object):
 
     def get_session_ids(self):
         self.logger.debug('Getting session IDs')
-        b = [
-            0x20,
-            0x00,
-            0x00,
-            0x00,
-            0x16,
-            0x02,
-            0x62,
-            0x3a,
-            0xd5,
-            0xed,
-            0xa3,
-            0x01,
-            0xae,
-            0x08,
-            0x2d,
-            0x46,
-            0x61,
-            0x41,
-            0xa7,
-            0xf6,
-            0xdc,
-            0xaf,
-            0xf3,
-            0xf7,
-            0x00,
-            0x00,
-            0x1e
-        ]
+        cmd = Command(27)
+        cmd[0] = 0x20
+        cmd[1] = 0x00
+        cmd[2] = 0x00
+        cmd[3] = 0x00
+        cmd[4] = 0x16
+        cmd[5] = 0x02
+        cmd[6] = 0x62
+        cmd[7] = 0x3a
+        cmd[8] = 0xd5
+        cmd[9] = 0xed
+        cmd[10] = 0xa3
+        cmd[11] = 0x01
+        cmd[12] = 0xae
+        cmd[13] = 0x08
+        cmd[14] = 0x2d
+        cmd[15] = 0x46
+        cmd[16] = 0x61
+        cmd[17] = 0x41
+        cmd[18] = 0xa7
+        cmd[19] = 0xf6
+        cmd[20] = 0xdc
+        cmd[21] = 0xaf
+        cmd[22] = 0xf3
+        cmd[23] = 0xf7
+        cmd[24] = 0x00
+        cmd[25] = 0x00
+        cmd[26] = 0x1e
 
-
-        self.send_raw(bytearray(b))
+        self.send_raw(cmd)
 
         data = self._sock.recv(1024)
 
@@ -185,7 +150,7 @@ class Bridge(object):
         if data:
 
             db = bytearray(data)
-            self.logger.debug('Response: %s' % pprint_bytearray(db))
+            self.logger.debug('Response: %s' % db)
 
             self._wb1 = db[19]
             self._wb2 = db[20]
@@ -196,6 +161,32 @@ class Bridge(object):
 
 
     def confirm_init(self):
+
+        cmd = Command(23)
+        cmd[0] = 0x80
+        cmd[1] = 0x00
+        cmd[2] = 0x00
+        cmd[3] = 0x00
+        cmd[4] = 0x11
+        cmd[5] = self._wb1
+        cmd[6] = self._wb2
+        cmd[7] = 0x00
+        cmd[8] = self._cmd_counter
+        cmd[9] = 0x00
+        cmd[10] = 0x33
+        cmd[11] = 0x00
+        cmd[12] = 0x00
+        cmd[13] = 0x00
+        cmd[14] = 0x00
+        cmd[15] = 0x00
+        cmd[16] = 0x00
+        cmd[17] = 0x00
+        cmd[18] = 0x00
+        cmd[19] = 0x00
+        cmd[20] = 0x00
+        cmd[21] = 0x00
+        cmd[22] = 0x33
+        """
         b = [
             0x80,
             0x00,
@@ -224,12 +215,12 @@ class Bridge(object):
             0x00,
             0x33
         ]
-
+        """
         self.logger.debug('Confirming initialization')
-        self.send_raw(bytearray(b))
+        self.send_raw(cmd)
 
         data = self._sock.recv(1024)
-        self.logger.debug('Response: %s' % pprint_bytearray(bytearray(data)))
+        self.logger.debug('Response: %s' % bytearray(data))
 
 
     def get_group(self, group):
@@ -282,9 +273,9 @@ class Bridge(object):
         self.send(g.off(),group)
         self._last_set_group = -1
 
-    def send_raw(self, frame):
-        self.logger.debug('Sending frame: %s' % pprint_bytearray(frame))
-        self._sock.sendto(frame, (self.ip, self.port))
+    def send_raw(self, cmd):
+        self.logger.debug('Sending command: %s' % cmd.message_str())
+        self._sock.sendto(cmd.message(), (self.ip, self.port))
         self._cmd_counter = (self._cmd_counter + 1) % 255
         time.sleep(self.pause)
 
@@ -299,15 +290,10 @@ class Bridge(object):
             cmd[7] = 0x00
             cmd[8] = self._cmd_counter
             cmd[9] = 0x00
-            cmd[21] = cmd.checksum(group)
+            cmd[21] = cmd.checksum()
 
-            self.send_raw(bytearray(cmd.message()))
+            self.send_raw(cmd)
             
-            response = self._sock.recv(1024)
-            self.logger.debug('Response: %s' % pprint_bytearray(bytearray(response)))
-
-
-
 
 class Group(object):
     """Represents a group of lights"""
@@ -322,7 +308,7 @@ class Group(object):
         self._command_counter = 0
 
     def _prepare_cmd(self):
-        cmd = Command()
+        cmd = CustomCommand(22)
         cmd[10] = 0x31
         cmd[11] = 0x00
         cmd[12] = 0x00

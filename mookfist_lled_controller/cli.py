@@ -6,13 +6,13 @@ from docopt import docopt
 from mookfist_lled_controller import logger
 from mookfist_lled_controller import WifiBridge
 from mookfist_lled_controller import get_bridges
-from mookfist_lled_controller import fade_brightness
-from mookfist_lled_controller import fade_color
+from mookfist_lled_controller import transition_brightness
+from mookfist_lled_controller import transition_color
 from mookfist_lled_controller import set_color
 from mookfist_lled_controller import set_brightness
-from mookfist_lled_controller import set_on
-from mookfist_lled_controller import set_off
-from mookfist_lled_controller import set_white
+from mookfist_lled_controller import turn_on
+from mookfist_lled_controller import turn_off
+from mookfist_lled_controller import white
 from mookfist_lled_controller import set_rgb
 from mookfist_lled_controller import color_from_rgb
 from mookfist_lled_controller.exceptions import UnsupportedVersion
@@ -78,15 +78,15 @@ class Main(object):
         start = int(self.arguments['<start>'])
         end   = int(self.arguments['<end>'])
 
-        self.log.info('Fading lights from %s%% to %s%%' % (start, end))
-        fade_brightness(self.bridge, self.arguments['--group'], start, end)
+        self.log.info('Transitioning brightness from %s%% to %s%%' % (start, end))
+        transition_brightness(self.bridge, self.arguments['--group'], start, end)
 
     def action_fadec(self):
         start = int(self.arguments['<start>'])
         end   = int(self.arguments['<end>'])
 
-        self.log.info('Fading to color %s from %s' % (end, start))
-        fade_color(self.bridge, self.arguments['--group'], start, end)
+        self.log.info('Transitioning color from %s to %s' % (start, end))
+        transition_color(self.bridge, self.arguments['--group'], start, end)
 
     def action_color(self):
         color = int(self.arguments['<color>'])
@@ -96,7 +96,7 @@ class Main(object):
 
     def action_white(self):
         self.log.info('Setting color to white')
-        set_white(self.bridge, self.arguments['--group'])
+        white(self.bridge, self.arguments['--group'])
 
     def action_brightness(self):
         brightness = int(self.arguments['<brightness>'])
@@ -105,11 +105,11 @@ class Main(object):
 
     def action_on(self):
         self.log.info('Turning lights on')
-        set_on(self.bridge, self.arguments['--group'])
+        turn_on(self.bridge, self.arguments['--group'])
 
     def action_off(self):
         self.log.info('Turning lights off')
-        set_off(self.bridge, self.arguments['--group'])
+        turn_off(self.bridge, self.arguments['--group'])
 
     def action_rgb(self):
         r = int(self.arguments['<r>'])
