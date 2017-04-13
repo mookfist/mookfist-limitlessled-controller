@@ -135,6 +135,15 @@ class Bridge(object):
         self._wb2 = None
         self._cmd_counter = 0x01
 
+        self._last_set_group = -1
+
+    def _init_group(self, group=1):
+        g = self.get_group(group)
+        if group != self._last_set_group:
+            self.on(group)
+            self._last_set_group = group
+        return g
+
     def get_session_ids(self):
         self.logger.debug('Getting session IDs')
         b = [
@@ -229,15 +238,21 @@ class Bridge(object):
         return self._groups[group]
 
     def color(self, color, group=1):
-        g = self.get_group(group)
+        g = self._init_group(group)
         self.send(g.color(color))
 
     def color_from_rgb(self, r, g, b, group=1):
         if r == 255 and g == 255 and b == 255:
             self.white(group)
+            self.brightness(100)
             return
         elif r == 0 and g == 0 and b == 0:
             self.off()
+            return
+        elif r == b and b == g and g == r:
+            brightness = math.ceil((r / 255.0) * 100.0)
+            self.white(group)
+            self.brightness(int(brightness))
             return
 
         ## B and G are inversed here. For some reason this 
@@ -250,20 +265,22 @@ class Bridge(object):
         self.color(color, group)
 
     def brightness(self, brightness, group=1):
-        g = self.get_group(group)
+        g = self._init_group(group)
         self.send(g.brightness(brightness))
 
     def white(self, group=1):
-        g = self.get_group(group)
+        g = self._init_group(group)
         self.send(g.white())
 
     def on(self, group=1):
         g = self.get_group(group)
         self.send(g.on(),group)
+        self._last_set_group = group
 
     def off(self, group=1):
         g = self.get_group(group)
         self.send(g.off(),group)
+        self._last_set_group = -1
 
     def send_raw(self, frame):
         self.logger.debug('Sending frame: %s' % pprint_bytearray(frame))

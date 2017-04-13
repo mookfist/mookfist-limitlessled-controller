@@ -77,21 +77,35 @@ class Bridge(object):
             self._groups[group] = self._Group(group)
         return self._groups[group]
 
-    def color(self, color, group=1):
+    def _init_group(self, group=1):
         g = self.get_group(group)
         if self._last_set_group != group:
             self.send(g.on())
             self._last_set_group = group
+        return g
 
+
+    def color(self, color, group=1):
+        g = self._init_group(group)
         self.send(g.color(color))
 
     def color_from_rgb(self, r, g, b, group=1):
 
-        if r == 255 and b == 255 and g = 255:
+        # color is white, so set to white
+        if r == 255 and b == 255 and g == 255:
             self.white(group)
+            self.brightness(100)
             return
-        if r == 0 and b == 0 and g == 0:
+        # color is black, so turn off
+        elif r == 0 and b == 0 and g == 0:
             self.off(group)
+            return
+        # color is is a shade of grey, so set to white and
+        # adjust brightness based on grey scale
+        elif r == b and b == g and g == r:
+            brightness = math.ceil((r / 255.0) * 100.0)
+            self.white(group)
+            self.brightness(brightness)
             return
 
         color = color_from_rgb(r, g, b)
@@ -103,13 +117,15 @@ class Bridge(object):
     def off(self, group=1):
         g = self.get_group(group)
         self.send(g.off())
+        self._last_set_group = -1
 
     def on(self, group=1):
         g = self.get_group(group)
         self.send(g.on())
+        self._last_set_group = group
 
     def white(self, group=1):
-        g = self.get_group(group)
+        g = self._init_group(group)
 
         if group == 1:
             self.send(Command(0x45))
@@ -126,12 +142,7 @@ class Bridge(object):
 
 
     def brightness(self, brightness, group=1):
-        g = self.get_group(group)
-
-        if self._last_set_group != group:
-            self.send(g.on())
-            self._last_set_group = group
-
+        g = self._init_group(group)
         self.send(g.brightness(brightness))
 
     def send(self, cmd):
