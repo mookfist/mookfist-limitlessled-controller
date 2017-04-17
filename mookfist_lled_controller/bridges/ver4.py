@@ -35,7 +35,7 @@ def get_bridges(sock=None):
             data = sock.recv(1024)
             if data:
                 host, mac = data.split(','.encode('utf8'))[:2]
-                
+
                 bridge = (host.decode('utf8'),mac.decode('utf8'))
                 if bridge not in bridges:
                     bridges.append(bridge)
@@ -44,7 +44,7 @@ def get_bridges(sock=None):
         except socket.timeout:
             counter = counter + 1
 
-    
+
     return tuple(bridges)
 
 class Bridge(object):
@@ -72,8 +72,9 @@ class Bridge(object):
 
 
     def get_group(self, group):
-        self.logger.warn('Group: %s' % group)
-        self.logger.warn('Groups: %s' % self._groups)
+        if group < 1 or group > 4:
+          raise InvalidGroup(group)
+
         if group not in self._groups:
             self._groups[group] = self._Group(group)
         return self._groups[group]
@@ -81,70 +82,56 @@ class Bridge(object):
     def _init_group(self, group=1):
         g = self.get_group(group)
         if self._last_set_group != group:
-            self.send(g.on())
-            self._last_set_group = group
+          self.on(group)
         return g
 
 
     def color(self, color, group=1):
+        self.logger.debug('Set raw color value to %s for group %s' % (color, group))
         g = self._init_group(group)
         self.send(g.color(color))
 
-    def color_from_rgb(self, r, g, b, group=1):
-
-        # color is white, so set to white
-        if r == 255 and b == 255 and g == 255:
-            self.white(group)
-            self.brightness(100)
-            return
-        # color is black, so turn off
-        elif r == 0 and b == 0 and g == 0:
-            self.off(group)
-            return
-        # color is is a shade of grey, so set to white and
-        # adjust brightness based on grey scale
-        elif r == b and b == g and g == r:
-            brightness = math.ceil((r / 255.0) * 100.0)
-            self.white(group)
-            self.brightness(brightness)
-            return
-
-        color = color_from_rgb(r, g, b)
-        color = color - 5
-        if color < 0:
-            color = color + 255
-        self.color(color, group)
+    def color_rgb(self, r, g, b, group=1):
+        self.logger.debug('Set color to rgb(%s,%s,%s) for group %s' % (r, g, b, group))
+        grp = self._init_group(group)
+        self.send(grp.color_rgb(r,g,b))
 
     def off(self, group=1):
+        self.logger.debug('Turn off group %s' % group)
         g = self.get_group(group)
         self.send(g.off())
         self._last_set_group = -1
 
     def on(self, group=1):
+        self.logger.debug('Turn on group %s' % group)
         g = self.get_group(group)
         self.send(g.on())
         self._last_set_group = group
 
     def white(self, group=1):
+        self.logger.debug('Turn on white color for group %s' % (group))
         g = self._init_group(group)
         self.send(g.white())
 
     def brightness(self, brightness, group=1):
+        self.logger.debug('Setting brightness to %s for group %s' % (brightness, group))
         g = self._init_group(group)
         self.send(g.brightness(brightness))
 
     def send(self, cmd):
-        for x in range(0, self.repeat):
-            print type(cmd)
-            if type(cmd) == Command:
-                cmds = [cmd]
-            else:
-                cmds = cmd
+        if type(cmd) == Command:
+          cmds = [cmd]
+        else:
+          cmds = cmd
 
+        for x in range(0, self.repeat):
             for c in cmds:
-                self.logger.debug('Sending command: %s' % c.message_str())
-                self._sock.sendto(c.message(), (self.ip, self.port))
-                time.sleep(self.pause)
+                if type(c) != Command:
+                    self.send(c)
+                else:
+                    self.logger.debug('Sending command: %s' % c.message_str())
+                    self._sock.sendto(c.message(), (self.ip, self.port))
+                    time.sleep(self.pause)
 
 
 class Group(object):
@@ -172,7 +159,7 @@ class Group(object):
         elif self.group == 4:
             cmd[0] = 0x4B
         else:
-            raise InvalidGroup() 
+            raise InvalidGroup()
 
         cmd[1] = 0x00
 
@@ -182,7 +169,7 @@ class Group(object):
         """
         get the Off command for this group
         """
-        
+
         cmd = Command(2)
         cmd[1] = 0x00
 
@@ -204,13 +191,31 @@ class Group(object):
 
         cmd = Command(2)
         cmd[0] = 0x40
-
-        color = color + 176
-        if color > 255:
-            color = color - 255
         cmd[1] = color
 
         return cmd
+
+    def color_rgb(self, r, g, b):
+        # color is white, so set to white
+        if r == 255 and b == 255 and g == 255:
+            cmd = (self.white(), self.brightness(100))
+        # color is black, so turn off
+        elif r == 0 and b == 0 and g == 0:
+            cmd = self.off()
+        # color is is a shade of grey, so set to white and
+        # adjust brightness based on grey scale
+        elif r == b and b == g and g == r:
+            brightness = int(math.ceil((r / 255.0) * 100.0))
+            cmd = (self.white(), self.brightness(brightness))
+        else:
+            color = color_from_rgb(r, g, b)
+            color = color + 171
+            if color > 255:
+                color = color - 255
+            cmd = self.color(color)
+
+        return cmd
+
 
     def white(self):
 
@@ -236,10 +241,10 @@ class Group(object):
 
     def brightness(self, brightness):
         """"get the brightness command for this group and brightness (0-100%)
-        
+
             LimitlessLED only supports values 2 to 27 for brightness, so this percentage
             is actually a percentage of the value 25
-        
+
         """
         target_brightness = int(math.ceil(25 * (brightness / 100.0)) + 2)
 
