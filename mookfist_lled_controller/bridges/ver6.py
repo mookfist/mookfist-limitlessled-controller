@@ -102,13 +102,13 @@ class Bridge(object):
         self._wb2 = None
         self._cmd_counter = 0x01
 
-        self._last_set_group = -1
+        self._last_set_group = []
 
     def _init_group(self, group=1):
         g = self.get_group(group)
-        if group != self._last_set_group:
+        if group not in self._last_set_group:
             self.on(group)
-            self._last_set_group = group
+            self._last_set_group.append(group)
         return g
 
     def get_session_ids(self):
@@ -253,13 +253,13 @@ class Bridge(object):
         self.logger.debug('Turn on group %s' % group)
         g = self.get_group(group)
         self.send(g.on(),group)
-        self._last_set_group = group
+        self._last_set_group.append(group)
 
     def off(self, group=1):
         self.logger.debug('Turn off group %s' % group)
         g = self.get_group(group)
         self.send(g.off(),group)
-        self._last_set_group = -1
+        self._last_set_group.remove(group)
 
     def send_raw(self, cmd):
         self.logger.debug('Sending command: %s' % cmd.message_str())
