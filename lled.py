@@ -14,7 +14,6 @@ Usage:
     lled.py rgb <r> <g> <b> (--group=<GROUP>)... [options]
     lled.py white (--group=<GROUP>)... [options]
     lled.py brightness <brightness> (--group=<GROUP>)... [options]
-    lled.py temperature <temp> (--group=<GROUP>)... [options]
     lled.py scan [options]
 
 Options:
