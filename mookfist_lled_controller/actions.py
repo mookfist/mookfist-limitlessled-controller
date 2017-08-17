@@ -41,7 +41,7 @@ def white(bridge, groups):
     """
     for grp in groups:
 
-        if grp.isdigit(grp):
+        if grp.isdigit():
             grp = int(grp)
 
         bridge.white(grp)

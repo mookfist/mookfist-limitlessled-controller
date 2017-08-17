@@ -12,7 +12,7 @@ from mookfist_lled_controller.exceptions import InvalidGroup
 from mookfist_lled_controller import color_from_rgb
 from mookfist_lled_controller import Command
 
-GROUPS = (1,2,3,4)
+GROUPS = (1,2,3,4,'all')
 
 def get_bridges(sock=None):
     """Get available bridges"""
@@ -294,9 +294,14 @@ class Group(object):
 
     def __init__(self, group, bulbtype=0x07):
         """
-        group: group number (1-4)
+        group: int(1) to int(4) or str('all')
         """
-        self.group = group
+
+        if group == 'all':
+            self.group = 0
+        else:
+            self.group = int(group)
+
         self.bulbtype = bulbtype
 
         self._command_counter = 0
