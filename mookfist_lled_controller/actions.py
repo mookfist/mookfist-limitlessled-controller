@@ -12,7 +12,9 @@ def turn_off(bridge, groups):
     groups : list
     """
     for grp in groups:
-        bridge.off(int(grp))
+        if grp.isdigit():
+            grp = int(grp)
+        bridge.off(grp)
 
 def turn_on(bridge, groups):
     """Turn on lights
@@ -23,6 +25,10 @@ def turn_on(bridge, groups):
     groups: list
     """
     for grp in groups:
+
+        if grp.isdigit():
+            grp = int(grp)
+            
         bridge.on(int(grp))
 
 def white(bridge, groups):
@@ -34,7 +40,11 @@ def white(bridge, groups):
     groups : list
     """
     for grp in groups:
-        bridge.white(int(grp))
+
+        if grp.isdigit(grp):
+            grp = int(grp)
+
+        bridge.white(grp)
 
 def transition_brightness(bridge, groups, start, end):
     """Transition the brightness of the selected groups
@@ -55,7 +65,9 @@ def transition_brightness(bridge, groups, start, end):
 
     for cmd in cmds:
         for grp in groups:
-            bridge.brightness(cmd, int(grp))
+            if grp.isdigit():
+                grp = int(grp)
+            bridge.brightness(cmd, grp)
 
 
 def transition_color(bridge, groups, start, end):
@@ -75,7 +87,9 @@ def transition_color(bridge, groups, start, end):
 
     for cmd in cmds:
         for grp in groups:
-            bridge.color(cmd, int(grp))
+            if grp.isdigit():
+                grp = int(grp)
+            bridge.color(cmd, grp)
 
 
 def set_color(bridge, groups, color):
@@ -87,7 +101,9 @@ def set_color(bridge, groups, color):
     color : int
     """
     for grp in groups:
-        bridge.color(color, int(grp))
+        if grp.isdigit():
+            grp = int(grp)
+        bridge.color(color, grp)
 
 def color_rgb(bridge, groups, r, g, b):
     """Set the color of selected groups using red/green/blue values
@@ -100,7 +116,9 @@ def color_rgb(bridge, groups, r, g, b):
     g : int
     """
     for grp in groups:
-        bridge.color_rgb(r, g, b, int(grp))
+        if grp.isdigit():
+            grp = int(grp)
+        bridge.color_rgb(r, g, b, grp)
 
 def set_brightness(bridge, groups, brightness):
     """Set the brightness of the selected groups
@@ -111,4 +129,7 @@ def set_brightness(bridge, groups, brightness):
     brightnes: int
     """
     for grp in groups:
-        bridge.brightness(brightness, int(grp))
+        if grp.isdigit():
+            grp = int(grp)
+        bridge.brightness(brightness, grp)
+

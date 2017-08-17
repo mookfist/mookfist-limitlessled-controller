@@ -12,7 +12,7 @@ from mookfist_lled_controller.exceptions import InvalidGroup
 from mookfist_lled_controller import color_from_rgb
 from mookfist_lled_controller import Command
 
-GROUPS = (1,2,3,4)
+GROUPS = (1,2,3,4,'all')
 
 def get_bridges(sock=None):
 
@@ -72,7 +72,7 @@ class Bridge(object):
 
 
     def get_group(self, group):
-        if group < 1 or group > 4:
+        if group not in GROUPS:
           raise InvalidGroup(group)
 
         if group not in self._groups:
@@ -158,6 +158,8 @@ class Group(object):
             cmd[0] = 0x49
         elif self.group == 4:
             cmd[0] = 0x4B
+        elif self.group == 'all':
+            cmd[0] = 0x42
         else:
             raise InvalidGroup()
 
@@ -181,6 +183,8 @@ class Group(object):
             cmd[0] = 0x4A
         elif self.group == 4:
             cmd[0] = 0x4C
+        elif self.group == 'all':
+            cmd[0] = 0x41
         else:
             raise InvalidGroup()
 
@@ -236,6 +240,9 @@ class Group(object):
         elif self.group == 4:
             cmd[0] = 0x4b
             cmd2[0] = 0xcb
+        elif self.group == 'all':
+            cmd[0] = 0x42
+            cmd2[0] = 0xc2
 
         return (cmd,cmd2)
 
