@@ -17,6 +17,8 @@ from mookfist_lled_controller import color_rgb
 from mookfist_lled_controller.exceptions import UnsupportedVersion
 from mookfist_lled_controller.exceptions import InvalidGroup
 from mookfist_lled_controller.exceptions import NoBridgeFound
+
+
 def configure_logger(debug=False):
     """Configure a logger with colored output"""
 
