@@ -18,7 +18,7 @@ def turn_off(bridge, groups):
 
 def turn_on(bridge, groups):
     """Turn on lights
-    
+
     Parameters
     ----------
     bridge: mookfist_lled_controller.WifiBridge
@@ -28,7 +28,7 @@ def turn_on(bridge, groups):
 
         if grp.isdigit():
             grp = int(grp)
-            
+
         bridge.on(int(grp))
 
 def white(bridge, groups):
@@ -48,7 +48,7 @@ def white(bridge, groups):
 
 def transition_brightness(bridge, groups, start, end):
     """Transition the brightness of the selected groups
-    
+
     Parameters
     ----------
     bridge : mookfist_lled_controller.WifiBridge
@@ -72,7 +72,7 @@ def transition_brightness(bridge, groups, start, end):
 
 def transition_color(bridge, groups, start, end):
     """Transition the color of the selected groups
-    
+
     Parameters
     ----------
     bridge : mookfist_lled_controller.WifiBridge

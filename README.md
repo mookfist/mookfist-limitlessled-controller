@@ -34,6 +34,15 @@ $ lled.py --help
 
 The API is currently not documented but these examples should help get you going.
 
+### Notes
+
+1. The Version 4 bridge is not threadsafe.
+2. Fading sends multiple brightness commands because there is no native fade command in the LimitlessLED protocol.
+3. V4 bridges require a command to be sent to switch to a group. This is handled automatically, but consider this when wanting to perform simultaneous effects.
+4. For examples of how commands are sent, use the cli tool with the --debug flag
+5. All commands are blocking. Fading a single group from 100% to 0% takes ~10 seconds. Performing different patterns on different groups simultaneously could take some time, especially on V4 bridges.
+
+
 ### API Examples
 ```python
 # Set brightness to 50% for groups 1 and 2
@@ -60,7 +69,6 @@ bridge.color(128, 1)
 
 ```python
 # Fade groups 1 through 4 from 100% to 0%
-# This is a blocking operation
 from mookfist_lled_controller import WifiBridge
 from mookfist_lled_controller import get_bridges
 from mookfist_lled_controller import fade_brightness
@@ -73,7 +81,6 @@ fade_brightness(bridge, (1,2,3,4), 100, 0)
 
 ```python
 # Fade color from 0 to 255 for groups 2 and 3
-# This is a blocking operation
 from mookfist_lled_controller import WifiBridge
 from mookfist_lled_controller import get_bridges
 from mookfist_lled_controller import fade_brightness
@@ -96,7 +103,6 @@ bridge = WifiBridge(ip, 8899, version=4, pause=50, repeat=5)
 fade_brightness(bridge, (1), 0, 100)
 ```
 
-
 ## Command Line Interface
 
 The lled.py script allows you to control your lights from the command line.
@@ -113,6 +119,7 @@ The lled.py script allows you to control your lights from the command line.
 | off | Turn off a group |
 | white | Turn a group white |
 | rgb <r> <g> <b> | Set the color using an RGB value. Each color is a number between 0 and 255 |
+| scan | Scan for available bridges on the network |
 | colorcycle | Cycle through all available colors |
 
 
@@ -153,8 +160,6 @@ $ python lled.py white --group 1 --bridge-version 6
 
 ## Tweaking
 
-The repeat and pause values can be used to tweak how commands are sent. In general, you should wait 100ms between each command sent. But since there is no native fading in LimitlessLED, to achieve fading, the controller sends multiple commands to fade from one value to another.
+The version 4 bridge is not thread safe, and requires more commands to be sent in order to perform various actions. This means you can only send one command at a time, and you have to send more commands than you would with a version 6 bridge. This can lead to various problems especially when you want to controll different groups in different ways at the same time.
 
-If the pause is too small, some commands might get missed. But this is what the repeat setting can fix. You can send the same command more than once.
-
-Getting smooth fading is not very easy with the wifi protocol, but you might be able to get better results by playing with these two values
+The repeat and pause values can be used to tweak how commands are sent. By default, commands are sent with a 100ms pause and are only sent once. You can experiement increaseing or decreasing the pause value, and increasing the repeat value, to see if it improves smoothness. Your mileage may vary.
