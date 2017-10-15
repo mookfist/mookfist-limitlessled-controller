@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 __doc__ = """A python library for communicating with LimitlessLED/Milight/Easybulb compatible wifi bridges."""
 
@@ -11,7 +11,7 @@ setup(
     author_email="mookfist@gmail.com",
     url="https://github.com/mookfist/mookfist-lled-controller",
     scripts=['lled.py'],
-    packages=['mookfist_lled_controller','mookfist_lled_controller.bridges'],
+    packages=find_packages(),
     install_requires=[
         'docopt',
         'colorama'

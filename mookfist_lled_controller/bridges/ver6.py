@@ -7,8 +7,6 @@ import socket
 import math
 import logging
 import time
-from mookfist_lled_controller.exceptions import NoBridgeFound
-from mookfist_lled_controller.exceptions import InvalidGroup
 from mookfist_lled_controller import color_from_rgb
 from mookfist_lled_controller import Command
 
@@ -53,7 +51,7 @@ def format_hex(i):
     else:
         i = hex(i)
     return i
-    
+
 
 
 class CustomCommand(Command):
@@ -146,7 +144,7 @@ class Bridge(object):
 
         data = self._sock.recv(1024)
 
-        
+
         if data:
 
             db = bytearray(data)
@@ -202,7 +200,7 @@ class Bridge(object):
             0x00,
             0x00,
             0x00,
-            
+
             0x00,
             0x00,
             0x00,
@@ -287,7 +285,7 @@ class Bridge(object):
                 cmd[21] = cmd.checksum()
 
                 self.send_raw(cmd)
-            
+
 
 class Group(object):
     """Represents a group of lights"""
@@ -338,7 +336,7 @@ class Group(object):
         cmd[14] = 0x03
         cmd[15] = 0x02
         return cmd
-    
+
     def color_rgb(self, r, g, b):
         if r == 255 and b == 255 and g == 255:
             cmd = (self.white(), self.brightness(100))
@@ -376,10 +374,10 @@ class Group(object):
 
     def brightness(self, brightness):
         """"get the brightness command for this group and brightness (0-100%)
-        
+
             LimitlessLED only supports values 2 to 27 for brightness, so this percentage
             is actually a percentage of the value 25
-        
+
         """
         target_brightness = int(math.ceil(25 * (brightness / 100.0)) + 2)
         cmd = self._prepare_cmd()
