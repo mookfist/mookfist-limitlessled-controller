@@ -13,22 +13,6 @@ mookfist\_lled\_controller\.bridge
     :undoc-members:
     :show-inheritance:
 
-mookfist\_lled\_controller\.colors
------------------------------------------
-
-.. automodule:: mookfist_lled_controller.colors
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-mookfist\_lled\_controller\.command
-------------------------------------------
-
-.. automodule:: mookfist_lled_controller.command
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 mookfist\_lled\_controller\.exceptions
 ---------------------------------------------
 

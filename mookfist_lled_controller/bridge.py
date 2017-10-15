@@ -13,12 +13,12 @@ def create_bridge(version, ip, port=None, pause=100, repeat=1, timeout=2):
     >>> bridge.on('all')
 
     Attributes:
-        version: Which bridge version to create
-        ip: ip/hostname of the bridge
-        port: port number of the bridge, leave None for default
-        pause: number of milliseconds to wait before sending a comand
-        repeat: number of times to repeat a command
-        timeout: socket timeout in seconds
+       | version: Which bridge version to create
+       | ip: ip/hostname of the bridge
+       | port: port number of the bridge, leave None for default
+       | pause: number of milliseconds to wait before sending a comand
+       | repeat: number of times to repeat a command
+       | timeout: socket timeout in seconds
     """
     if version is 4 or version is 5:
         from mookfist_lled_controller.bridges.ver4 import Bridge
@@ -40,8 +40,8 @@ def scan_bridges(version=4, sock=None):
     ('192.168.1.100', 'af:12:d4:ee:90:38')
 
     Attributes:
-        version: Which version to scan for
-        sock: If set, will use this socket instead of creating a new one
+       | version: Which version to scan for
+       | sock: If set, will use this socket instead of creating a new one
     """
 
     if sock is None:
@@ -91,12 +91,12 @@ class BaseBridge():
     for those commands.
 
     Attributes:
-        ip: IP or hostname of the wifi bridge
-        port: port number of the bridge
-        pause: Number of milliseconds to wait before sending a command
-        repeat: Number of times to repeat a command
-        timeout: Socket timeout
-        sock: Your own socket
+        | ip: IP or hostname of the wifi bridge
+        | port: port number of the bridge
+        | pause: Number of milliseconds to wait before sending a command
+        | repeat: Number of times to repeat a command
+        | timeout: Socket timeout
+        | sock: Your own socket
     """
     def __init__(self, ip, port=None, pause=100, repeat=1, timeout=2, **kwargs):
         self.ip = ip
@@ -154,8 +154,8 @@ class BaseBridge():
         """Set the color for specific group(s)
 
         Attributes:
-            color: A value between 0 and 255
-            group: Group number(s) or 'all'
+            | color: A value between 0 and 255
+            | group: Group number(s) or 'all'
         """
         groups = self._groups(group)
 
@@ -168,10 +168,10 @@ class BaseBridge():
         """Set the color for specific group(s) using RGB values
 
         Attributes:
-            r: Red value between 0 and 255
-            b: Blue value between 0 and 255
-            g: Green value between 0 and 255
-            group: Group number(s) or 'al'
+            | r: Red value between 0 and 255
+            | b: Blue value between 0 and 255
+            | g: Green value between 0 and 255
+            | group: Group number(s) or 'al'
         """
         groups = self._groups(group)
         for group in groups:
@@ -183,7 +183,7 @@ class BaseBridge():
         """Set color to white
 
         Attributes:
-            group: Group number(s) or 'all'
+            | group: Group number(s) or 'all'
         """
 
         groups = self._groups(group)
@@ -197,8 +197,8 @@ class BaseBridge():
         """Set brightness
 
         Attributes:
-            brightness: A number between 0 (dark) and 100 (bright)
-            group: Group number(s) or 'all'
+            | brightness: A number between 0 (dark) and 100 (bright)
+            | group: Group number(s) or 'all'
         """
 
         groups = self._groups(group)
@@ -234,3 +234,63 @@ class BaseGroup():
 
     def brightness(self, brightness):
         raise NotImplementedError()
+
+
+class Command(object):
+    """Represents a command
+
+    Commands are sequences of bytes represented as
+    hexadecimal numbers.
+
+    Usage:
+        >>> c = Command(3)
+        >>> c[0] = 0x00
+        >>> c[1] = 0x10
+        >>> c[2] = 0x30
+        >>> c.message()
+        bytearray
+
+    Attributes:
+        size: The size of the command (number of bytes)
+    """
+    def __init__(self, size):
+        self._cmd = []
+
+        for x in range(0, size):
+            self._cmd.append(None)
+
+    def __getitem__(self, key):
+        key = int(key)
+        if key > len(self._cmd):
+            raise "Invalid byte"
+        else:
+            return self._cmd[key]
+
+    def __setitem__(self,key,value):
+        key = int(key)
+        if key > len(self._cmd):
+            raise "Invalid byte"
+        else:
+            self._cmd[key] = value
+
+    def checksum(self):
+        """Calculate sum of bytes"""
+        return sum(bytearray(self._cmd))
+
+    def message(self):
+        """Get bytearray of command"""
+        return bytearray(self._cmd)
+
+    def message_str(self):
+        """Get a string representation of command"""
+        cmd_str = []
+
+        for cmd_byte in self._cmd:
+            if cmd_byte == None:
+                cmd_str.append('--')
+            else:
+                s = hex(cmd_byte).replace('0x','')
+                if cmd_byte < 16:
+                    s = '0%s' % s
+                cmd_str.append(s)
+        return ' '.join(cmd_str)

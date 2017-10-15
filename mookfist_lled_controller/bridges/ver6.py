@@ -6,8 +6,7 @@ import math
 import logging
 import time
 from mookfist_lled_controller.colors import color_from_rgb
-from mookfist_lled_controller.command import Command
-from mookfist_lled_controller.bridge import BaseBridge, BaseGroup
+from mookfist_lled_controller.bridge import BaseBridge, BaseGroup, Command
 
 GROUPS = (1, 2, 3, 4, 'all')
 
