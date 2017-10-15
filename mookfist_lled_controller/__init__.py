@@ -1,5 +1,5 @@
-from .bridge import WifiBridge
-from .bridge import get_bridges
+from .bridge import scan_bridges
+from .bridge import init_bridge
 from .actions import transition_brightness
 from .actions import transition_color
 from .actions import set_color
