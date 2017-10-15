@@ -157,7 +157,6 @@ class Bridge(BaseBridge):
         self.logger.debug('Response: %s' % bytearray(data))
 
     def _get_group(self, group):
-        print('_get_group: %s' % group)
         if group not in self._group_cache:
             self._group_cache[group] = self._Group(group)
         return self._group_cache[group]

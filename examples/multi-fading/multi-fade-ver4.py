@@ -38,7 +38,7 @@ import logging
 from docopt import docopt
 
 from mookfist_lled_controller.cli import configure_logger
-from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller create_bridge
 
 try:
     from itertools import izip_longest as zip_longest
@@ -75,7 +75,7 @@ def main():
     fade_out_commands = zip_longest(range(100,0,-1), range(100,0,-3), range(100,0,-5), range(100,0,-10))
     fade_in_commands = zip_longest(range(0,100,1), range(0,100,3), range(0,100,5), range(0,100,10))
 
-    bridge = WifiBridge(ip, port, version=4, pause=pause, repeat=repeat)
+    bridge = create_bridge(4, ip, port, pause=pause, repeat=repeat)
 
     for cmd in fade_out_commands:
         for group in range(1,4):

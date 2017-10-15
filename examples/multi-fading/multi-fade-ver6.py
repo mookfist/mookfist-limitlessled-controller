@@ -21,7 +21,7 @@ import random
 from docopt import docopt
 
 from mookfist_lled_controller.cli import configure_logger
-from mookfist_lled_controller import WifiBridge
+from mookfist_lled_controller import create_bridge
 
 class FadeWorker(threading.Thread):
     def __init__(self, *args, **kwargs):
@@ -40,7 +40,7 @@ class FadeWorker(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        bridge = WifiBridge(self.host, self.port, self.version, self.pause, self.repeat)
+        bridge = create_bridge(self.version, self.host, self.port, self.pause, self.repeat)
 
         start = self.fade_from
         end   = self.fade_to
