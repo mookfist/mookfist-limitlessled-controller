@@ -2,14 +2,13 @@
 
 Intended as a simple wrapper around the LimitlessLED wifi protocol written in python.
 
-Supports wifi bridge versions 4, 5, and 6. Current features implemented:
+Supports wifi bridge versions 4, 5, and 6.
 
-1. color
-2. brightnes
-3. toggle white color
+Currently white temperature support is not implemented.
 
-Color values can be in a range from 0 to 255.
-Brightness values can be in a range from 0 to 100.
+There are no plans to implement the "party mode" features of the Limitless LED protocol. But I am not against accepting a pull request for them.
+
+For more information on the LimitlessLED protocol visit http://limitlessled.com/dev
 
 ## Installation
 
@@ -34,4 +33,4 @@ $ lled.py --help
 
 You can view the documentation over at http://mookfist-lled-controller.readthedocs.io
 
-
+You can view examples at https://github.com/mookfist-lled-controller/tree/examples
