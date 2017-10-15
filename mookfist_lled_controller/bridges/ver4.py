@@ -6,9 +6,9 @@ import math
 import logging
 import time
 from mookfist_lled_controller.exceptions import InvalidGroup
-from mookfist_lled_controller import color_from_rgb
-from mookfist_lled_controller import Command
-from mookfist_lled_conroller.bridge import BaseBridge, BaseGroup
+from mookfist_lled_controller.colors import color_from_rgb
+from mookfist_lled_controller.command import Command
+from mookfist_lled_controller.bridge import BaseBridge, BaseGroup
 
 GROUPS = (1, 2, 3, 4, 'all')
 

@@ -1,15 +1,4 @@
 from .bridge import scan_bridges
-from .bridge import init_bridge
-from .actions import transition_brightness
-from .actions import transition_color
-from .actions import set_color
-from .actions import set_brightness
-from .actions import turn_on
-from .actions import turn_off
-from .actions import white
-from .actions import color_rgb
-from .colors import color_from_rgb
-from .colors import color_from_hls
-from .colors import color_from_html
-from .command import Command
+from .bridge import create_bridge
 
+__all__ = ['scan_bridges', 'create_bridge']
