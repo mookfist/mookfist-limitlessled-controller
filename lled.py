@@ -14,16 +14,19 @@ Usage:
     lled.py rgb <r> <g> <b> (--group=<GROUP>)... [options]
     lled.py white (--group=<GROUP>)... [options]
     lled.py brightness <brightness> (--group=<GROUP>)... [options]
+    lled.py scan [options]
 
 Options:
     -h --bridge-ip=HOST       IP / Hostname of the bridge
     -p --bridge-port=PORT     Port number of the bridge (defaults to 8899 or 5987)
     --bridge-version=VERSION  Bridge version (defaults to 4)
     -g GROUP --group=GROUP    Group number (defaults to 1)
+    --bulb=BULB               Bulb type
     -r RC --repeat=RC         Number of times to repeat a command
     --pause=PAUSE             Number of milliseconds to wait between commands
     --debug                   Enable debugging output
     -h --help                 Show this help
+    --help-bulbtypes          Display possible bulb type values
 """
 import logging
 from docopt import docopt
