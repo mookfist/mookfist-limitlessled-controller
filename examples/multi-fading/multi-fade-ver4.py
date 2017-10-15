@@ -72,11 +72,17 @@ def main():
 
     group_cmds = (range(100,0,-1), range(100,0,3), range(100,0,5), range(100,0,10))
 
-    commands = zip_longest(range(100,0,-1), range(100,0,-3), range(100,0,-5), range(100,0,-10))
+    fade_out_commands = zip_longest(range(100,0,-1), range(100,0,-3), range(100,0,-5), range(100,0,-10))
+    fade_in_commands = zip_longest(range(0,100,1), range(0,100,3), range(0,100,5), range(0,100,10))
 
     bridge = WifiBridge(ip, port, version=4, pause=pause, repeat=repeat)
 
-    for cmd in commands:
+    for cmd in fade_out_commands:
+        for group in range(1,4):
+            if (cmd[group-1] != None):
+                bridge.brightness(cmd[group-1], group)
+
+    for cmd in fade_in_commands:
         for group in range(1,4):
             if (cmd[group-1] != None):
                 bridge.brightness(cmd[group-1], group)
