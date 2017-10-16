@@ -15,7 +15,8 @@ setup(
     install_requires=[
         'docopt',
         'colorama',
-        'sphinx_rtd_theme'
+        'sphinx_rtd_theme',
+        'six'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

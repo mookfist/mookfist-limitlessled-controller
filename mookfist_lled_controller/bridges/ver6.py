@@ -1,12 +1,13 @@
 """LimitlessLED Version 6 Bridge
 
 """
-import socket
+import types
 import math
 import logging
 import time
 from mookfist_lled_controller.colors import color_from_rgb
 from mookfist_lled_controller.bridge import BaseBridge, BaseGroup, Command
+import six
 
 GROUPS = (1, 2, 3, 4, 'all')
 
@@ -160,13 +161,6 @@ class Bridge(BaseBridge):
         if group not in self._group_cache:
             self._group_cache[group] = self._Group(group)
         return self._group_cache[group]
-
-    def _groups(self, group):
-        try:
-            groups = iter(group)
-        except TypeError:
-            groups = (group,)
-        return groups
 
     def _send_raw(self, cmd):
         self.logger.debug('Sending command: %s' % cmd.message())
