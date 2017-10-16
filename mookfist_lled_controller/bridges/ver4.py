@@ -54,13 +54,6 @@ class Bridge(BaseBridge):
             self.on(group)
         return g
 
-    def _groups(self, group):
-        try:
-            groups = iter(group)
-        except TypeError:
-            groups = (group,)
-        return groups
-
     def _send(self, cmd):
         if type(cmd) == Command:
             cmds = [cmd]

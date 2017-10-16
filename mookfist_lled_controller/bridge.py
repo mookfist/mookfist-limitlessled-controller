@@ -4,7 +4,7 @@ This module contains common code for wifi bridge classes.
 """
 import socket
 import time
-
+import six
 
 def create_bridge(version, ip, port=None, pause=100, repeat=1, timeout=2):
     """Creates a bridge for a specific version
@@ -113,9 +113,12 @@ class BaseBridge():
         else:
             self._sock = sock
 
-    def _groups(self, group):
+    def _ensure_group_array(self, group):
         try:
-            groups = iter(group)
+            if isinstance(group, six.string_types):
+                groups = (group,)
+            else:
+                groups = iter(group)
         except TypeError:
             groups = (group,)
         return groups
@@ -127,7 +130,7 @@ class BaseBridge():
         Attributes:
             group: Group number(s) or 'all'
         """
-        groups = self._groups(group)
+        groups = self._ensure_group_array(group)
 
         for group in groups:
             self.logger.debug('Turn on group %s' % group)
@@ -141,7 +144,7 @@ class BaseBridge():
         Attributes:
             group: Group number(s) or 'all'
         """
-        groups = self._groups(group)
+        groups = self._ensure_group_array(group)
 
         for group in groups:
             self.logger.debug('Turn off group %s' % group)
@@ -157,7 +160,7 @@ class BaseBridge():
             | color: A value between 0 and 255
             | group: Group number(s) or 'all'
         """
-        groups = self._groups(group)
+        groups = self._ensure_group_array(group)
 
         for group in groups:
             self.logger.debug('Set raw color value to %s for group %s' % (color, group))
@@ -173,7 +176,7 @@ class BaseBridge():
             | g: Green value between 0 and 255
             | group: Group number(s) or 'al'
         """
-        groups = self._groups(group)
+        groups = self._ensure_group_array(group)
         for group in groups:
             self.logger.debug('Set color to rgb(%s,%s,%s) for group %s' % (r, g, b, group))
             grp = self._init_group(group)
@@ -186,7 +189,7 @@ class BaseBridge():
             | group: Group number(s) or 'all'
         """
 
-        groups = self._groups(group)
+        groups = self._ensure_group_array(group)
 
         for group in groups:
             self.logger.debug('Turn on white color for group %s' % (group))
@@ -201,7 +204,7 @@ class BaseBridge():
             | group: Group number(s) or 'all'
         """
 
-        groups = self._groups(group)
+        groups = self._ensure_group_array(group)
         for group in groups:
             self.logger.debug('Setting brightness to %s for group %s' % (brightness, group))
             g = self._init_group(group)
