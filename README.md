@@ -1,4 +1,4 @@
-# Mookfist LimitlessLED Controller v0.1.1
+# Mookfist LimitlessLED Controller v0.1.2
 
 Intended as a simple wrapper around the LimitlessLED wifi protocol written in python.
 
