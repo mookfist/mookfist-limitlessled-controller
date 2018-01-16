@@ -206,6 +206,7 @@ class BaseBridge():
 
         groups = self._ensure_group_array(group)
         for group in groups:
+            group = int(group)
             self.logger.debug('Setting brightness to %s for group %s' % (brightness, group))
             g = self._init_group(group)
             self._send(g.brightness(brightness))
