@@ -121,6 +121,8 @@ class BaseBridge():
                 groups = iter(group)
         except TypeError:
             groups = (group,)
+
+        return [int(i) for i in groups]
         return groups
 
 
