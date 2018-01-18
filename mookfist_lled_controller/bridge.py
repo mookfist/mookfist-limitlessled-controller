@@ -283,6 +283,22 @@ class Command(object):
         """Calculate sum of bytes"""
         return sum(bytearray(self._cmd))
 
+    def __eq__(self, cmd):
+        cmpMsg = cmd.message()
+        origMsg = self.message()
+
+        if len(origMsg) != len(cmpMsg):
+            return False
+
+        for idx, b in enumerate(origMsg):
+            if cmpMsg[idx] != b:
+                return False
+        return True
+
+    def __ne__(self, cmd):
+        return not cmd == self
+
+
     def message(self):
         """Get bytearray of command"""
         return bytearray(self._cmd)
