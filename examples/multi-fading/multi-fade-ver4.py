@@ -38,7 +38,7 @@ import logging
 from docopt import docopt
 
 from mookfist_lled_controller.cli import configure_logger
-from mookfist_lled_controller create_bridge
+from mookfist_lled_controller import create_bridge
 
 try:
     from itertools import izip_longest as zip_longest
