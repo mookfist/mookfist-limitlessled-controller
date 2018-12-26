@@ -36,7 +36,7 @@ from mookfist_lled_controller.cli import Main
 
 def main():
     """Main function!"""
-    arguments = docopt(__doc__, version='Mookfist LimitlessLED Control 0.1.0')
+    arguments = docopt(__doc__, version='Mookfist LimitlessLED Control 0.1.3')
     configure_logger(arguments['--debug'])
 
     log = logging.getLogger('lled')

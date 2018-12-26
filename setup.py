@@ -6,7 +6,7 @@ __doc__ = """A python library for communicating with LimitlessLED/Milight/Easybu
 setup(
     name="mookfist-lled-controller",
     description=__doc__,
-    version="0.1.2",
+    version="0.1.3",
     author="mookfist",
     author_email="mookfist@gmail.com",
     url="https://github.com/mookfist/mookfist-lled-controller",
@@ -19,7 +19,7 @@ setup(
         'six'
     ],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Topic :: Utilities',
         'License :: OSI Approved :: MIT License',

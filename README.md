@@ -1,4 +1,4 @@
-# Mookfist LimitlessLED Controller v0.1.2
+# Mookfist LimitlessLED Controller v0.1.3
 [![Build Status](https://travis-ci.org/mookfist/mookfist-lled-controller.svg?branch=develop)](https://travis-ci.org/mookfist/mookfist-lled-controller)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/dfe89d6cf72045589e4f7ca6bb399ed7)](https://www.codacy.com/app/mookfist/mookfist-lled-controller?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mookfist/mookfist-lled-controller&amp;utm_campaign=Badge_Grade)
 
