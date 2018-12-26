@@ -14,7 +14,6 @@ Usage:
     lled.py rgb <r> <g> <b> (--group=<GROUP>)... [options]
     lled.py white (--group=<GROUP>)... [options]
     lled.py brightness <brightness> (--group=<GROUP>)... [options]
-    lled.py temperature <temp> (--group=<GROUP>)... [options]
     lled.py scan [options]
 
 Options:
@@ -37,7 +36,7 @@ from mookfist_lled_controller.cli import Main
 
 def main():
     """Main function!"""
-    arguments = docopt(__doc__, version='Mookfist LimitlessLED Control 0.0.1')
+    arguments = docopt(__doc__, version='Mookfist LimitlessLED Control 0.1.0')
     configure_logger(arguments['--debug'])
 
     log = logging.getLogger('lled')

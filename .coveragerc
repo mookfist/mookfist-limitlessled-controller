@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = mookfist_lled_controller
+
+[paths]
+source = 
+  mookfist_lled_controller
+
+[html]
+directory = reports/coverage
