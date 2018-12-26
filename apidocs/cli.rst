@@ -64,7 +64,8 @@ Options
 |                     | commands.                                              |
 +---------------------+--------------------------------------------------------+
 | --group             | Group number. Repease the argument for each command you|
-|                     | want to send the command to. Use 'all' for all groups  |
+|                     | want to send the command to. Use 'all' or 0 for all    |
+|                     | groups                                                 |
 +---------------------+--------------------------------------------------------+
 | --debug             | turn on debug logging                                  |
 +---------------------+--------------------------------------------------------+
